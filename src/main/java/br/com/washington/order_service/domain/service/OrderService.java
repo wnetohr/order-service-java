@@ -19,6 +19,10 @@ public class OrderService {
 
     @Transactional
     public Order createOrder(Order order) {
+        if (order.getTotalPrice() == null || order.getTotalPrice().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("O preço total do pedido deve ser maior que zero.");
+        }
+        
         order.setStatus(OrderStatus.PENDING);
         order.setCreatedAt(LocalDateTime.now());
 
